@@ -14,6 +14,8 @@ dependencies:
   at_demo_data: ^0.0.3+1
   modal_progress_hud: any
   at_onboarding_flutter: ^2.1.0
+  hex: ^0.2.0
+  crypto: ^3.0.1
 
 dev_dependencies:
   flutter_test:
