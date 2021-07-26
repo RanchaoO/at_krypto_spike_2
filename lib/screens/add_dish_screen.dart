@@ -1,3 +1,4 @@
+import 'package:chefcookbook/blockchain/blockchain.dart';
 import 'package:chefcookbook/components/rounded_button.dart';
 import 'package:at_commons/at_commons.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +10,7 @@ import 'package:chefcookbook/service/client_sdk_service.dart';
 class DishScreen extends StatelessWidget {
   static final String id = "add_dish";
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
-  String? _title;
+  String? _content;
   String? _ingredients;
   String? _description;
   String? _imageURL;
@@ -18,7 +19,7 @@ class DishScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Add a dish'),
+        title: Text('New Upload'),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -34,15 +35,15 @@ class DishScreen extends StatelessWidget {
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
-                        child: Hero(
-                          tag: 'choice chef',
-                          child: SizedBox(
-                            height: 120,
-                            child: Image.asset(
-                              'assets/chef.png',
-                            ),
-                          ),
-                        ),
+                        // child: Hero(
+                        //   tag: 'choice chef',
+                        //   child: SizedBox(
+                        //     height: 120,
+                        //     child: Image.asset(
+                        //       'assets/chef.png',
+                        //     ),
+                        //   ),
+                        // ),
                       ),
                       SizedBox(
                         height: 20,
@@ -50,55 +51,20 @@ class DishScreen extends StatelessWidget {
                       TextFormField(
                         decoration: InputDecoration(
                           icon: Icon(Icons.approval),
-                          hintText: 'Name of the dish',
-                          labelText: 'Name',
+                          hintText: 'Input string',
+                          labelText: 'Content',
                         ),
                         validator: (value) =>
-                            value!.isEmpty ? 'Specify name of the dish' : null,
+                            value!.isEmpty ? 'Empty' : null,
                         onChanged: (value) {
-                          _title = value;
-                        },
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          icon: Icon(Icons.approval),
-                          hintText: 'Short description for your dish',
-                          labelText: 'Description',
-                        ),
-                        maxLines: 3,
-                        validator: (value) =>
-                            value!.isEmpty ? 'Provide a description' : null,
-                        onChanged: (value) {
-                          _description = value;
-                        },
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          icon: Icon(Icons.approval),
-                          hintText: 'Separate ingredients by commas',
-                          labelText: 'Ingredients',
-                        ),
-                        validator: (value) =>
-                            value!.isEmpty ? 'Add some ingredients' : null,
-                        onChanged: (value) {
-                          _ingredients = value;
-                        },
-                      ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          icon: Icon(Icons.approval),
-                          hintText: 'Optional: link to an image of the cuisine',
-                          labelText: 'Image',
-                        ),
-                        onChanged: (value) {
-                          _imageURL = value;
+                          _content = value;
                         },
                       ),
                       SizedBox(
                         height: 50,
                       ),
                       RoundedButton(
-                        text: 'Add Cuisine',
+                        text: 'Upload',
                         color: Color(0XFF7B3F00),
                         path: () => _update(context),
                       )
@@ -116,6 +82,13 @@ class DishScreen extends StatelessWidget {
   _update(BuildContext context) async {
     ClientSdkService clientSdkService = ClientSdkService.getInstance();
     String? atSign = clientSdkService.atsign;
+
+    Blockchain blockChain = clientSdkService.getBlockchain();
+    blockChain.newUpload(atSign!, _content!);
+    print("aaaaaaaaaa");
+    print(blockChain.printChain().toString());
+
+
     // If all of the necessary text form fields have been properly
     // populated
     final FormState? form = _formKey.currentState;
@@ -125,25 +98,25 @@ class DishScreen extends StatelessWidget {
       // which is defined as @_@ so when a recipe is shared and received by
       // another secondary server, the at_cookbook app will understand how to
       // distribute the values correctly into their respectful fields
-      String _values = _description! + constant.splitter + _ingredients!;
+      // String _values = _description! + constant.splitter + _ingredients!;
 
       // If the authenticated atsign did not provide an image URL,
       // we automatically add the image with the question mark as
       // an image is required to be passed through
-      if (_imageURL != null) {
-        _values += constant.splitter + _imageURL!;
-      }
+      // if (_imageURL != null) {
+      //   _values += constant.splitter + _imageURL!;
+      // }
 
       // Instantiating an AtKey object and specifying its attributes with the
       // recipe title and the atsign that created it
       AtKey atKey = AtKey();
-      atKey.key = _title;
+      atKey.key = _content;
       atKey.sharedWith = atSign;
 
       // Utilizing the put method to take the AtKey object and its values
       // and 'put' it on the secondary server of the authenticated atsign
       // (the atsign currently logged in)
-      await clientSdkService.put(atKey, _values);
+      await clientSdkService.put(atKey, _content!);
 
       // This will take the authenticated atsign from the add_dish page back
       // to the home screen

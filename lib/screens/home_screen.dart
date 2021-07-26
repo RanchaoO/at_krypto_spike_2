@@ -1,5 +1,6 @@
 import 'package:chefcookbook/components/dish_widget.dart';
 import 'package:chefcookbook/constants.dart' as constant;
+import 'package:chefcookbook/screens/share_screen.dart';
 import 'add_dish_screen.dart';
 import 'other_screen.dart';
 import 'package:at_commons/at_commons.dart';
@@ -10,18 +11,13 @@ import 'package:flutter/material.dart';
 class HomeScreen extends StatefulWidget {
   static final String id = 'home';
   // final bool shouldReload;
-
-  // const HomeScreen({
-  //   this.shouldReload,
-  // });
-
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen>
     with SingleTickerProviderStateMixin {
-  final List<DishWidget> sortedWidgets = [];
+  final List<UploadWidget> sortedWidgets = [];
   ClientSdkService clientSdkService = ClientSdkService.getInstance();
   String atSign = ClientSdkService.getInstance().getAtSign().toString();
 
@@ -46,22 +42,24 @@ class _HomeScreenState extends State<HomeScreen>
                     // Returns a list of attributes for each dish.
                     List<String> dishAttributes = snapshot.data;
                     print(snapshot.data);
-                    List<DishWidget> dishWidgets = [];
+                    // List<DishWidget> dishWidgets = [];
+                    List<UploadWidget> uploads = [];
                     for (String attributes in dishAttributes) {
                       // Populate a DishWidget based on the attributes string.
                       List<String> attributesList =
                           attributes.split(constant.splitter);
-                      if (attributesList.length >= 3) {
-                        DishWidget dishWidget = DishWidget(
-                          title: attributesList[0],
-                          description: attributesList[1],
-                          ingredients: attributesList[2],
-                          imageURL: attributesList.length == 4
-                              ? attributesList[3]
-                              : null,
+                      if (attributesList.length >= 1) {
+                        UploadWidget uploadWidget = UploadWidget(
+                          content: attributesList[0],
+                          // description: attributesList[1],
+                          // ingredients: attributesList[2],
+                          // imageURL: attributesList.length == 4
+                          //     ? attributesList[3]
+                          //     : null,
                           prevScreen: HomeScreen.id,
                         );
-                        dishWidgets.add(dishWidget);
+                        uploads.add(uploadWidget);
+                        // uploads.add(attributes);
                       }
                     }
                     return SafeArea(
@@ -74,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen>
                                     MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
                                   Text(
-                                    'My Dishes',
+                                    'My Uploads',
                                     style: TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 32,
@@ -93,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen>
                                 ]),
                           ),
                           Column(
-                            children: dishWidgets,
+                            children: uploads,
                           ),
                         ],
                       ),
@@ -110,14 +108,31 @@ class _HomeScreenState extends State<HomeScreen>
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        backgroundColor: Color(0XFF7B3F00),
-        onPressed: () {
-          Navigator.pushNamed(context, DishScreen.id)
-              .then((value) => setState(() {}));
-        },
-      ),
+
+      floatingActionButton: Container(
+          padding: EdgeInsets.symmetric(vertical: 0, horizontal:0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              FloatingActionButton(
+              child: Icon(Icons.add),
+              backgroundColor: Color(0XFF7B3F00),
+              onPressed: () {
+              Navigator.pushNamed(context, DishScreen.id)
+                  .then((value) => setState(() {}));
+              },
+              ),
+              FloatingActionButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, ShareScreen.id)
+                      .then((value) => setState(() {}));
+                },
+                child: Icon(Icons.perm_contact_cal),
+                backgroundColor: Colors.blue,
+              ),
+            ],
+          )
+      )
     );
   }
 
@@ -131,7 +146,7 @@ class _HomeScreenState extends State<HomeScreen>
     // This regex is defined for searching for an AtKey object that carries the
     // namespace of cookbook and that have been created by the authenticated
     // atsign (the currently logged in atsign)
-    String regex = '^(?!cached).*cookbook.*';
+    String regex = '^(?!cached).*krypto.*';
 
     // Getting the recipes that are cached on the authenticated atsign's secondary
     // server utilizing the regex expression defined earlier
@@ -154,6 +169,7 @@ class _HomeScreenState extends State<HomeScreen>
       // Add current AtKey object to our list of strings defined earlier before
       // for loop
       responseList.add(value);
+      print('TEST VALUE: $value');
     }
 
     // After successfully looping through each AtKey object instance,

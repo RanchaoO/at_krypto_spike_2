@@ -8,7 +8,7 @@ import 'share_screen.dart';
 import 'package:flutter/material.dart';
 
 class DishPage extends StatelessWidget {
-  final DishWidget? dishWidget;
+  final UploadWidget? dishWidget;
   ClientSdkService clientSdkService = ClientSdkService.getInstance();
 
   DishPage({@required this.dishWidget});
@@ -26,7 +26,7 @@ class DishPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          dishWidget!.title!,
+          dishWidget!.content!,
         ),
       ),
       body: SafeArea(
@@ -45,7 +45,7 @@ class DishPage extends StatelessWidget {
                           children: <Widget>[
                             Expanded(
                               child: Text(
-                                dishWidget!.title!,
+                                dishWidget!.content!,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 36,
@@ -53,15 +53,15 @@ class DishPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            Expanded(
-                              child: CircleAvatar(
-                                radius: 80.0,
-                                backgroundImage: dishWidget!.imageURL == null
-                                    ? AssetImage('assets/question_mark.png')
-                                    : NetworkImage(dishWidget!.imageURL!)
-                                        as ImageProvider,
-                              ),
-                            ),
+                            // Expanded(
+                            //   child: CircleAvatar(
+                            //     radius: 80.0,
+                            //     backgroundImage: dishWidget!.imageURL == null
+                            //         ? AssetImage('assets/question_mark.png')
+                            //         : NetworkImage(dishWidget!.imageURL!)
+                            //             as ImageProvider,
+                            //   ),
+                            // ),
                           ],
                         ),
                         Padding(
@@ -76,27 +76,27 @@ class DishPage extends StatelessWidget {
                           padding: EdgeInsets.all(8.0),
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              dishWidget!.description!,
-                              style: TextStyle(
-                                color: Colors.black87,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
+                            // child: Text(
+                            //   dishWidget!.description!,
+                            //   style: TextStyle(
+                            //     color: Colors.black87,
+                            //     fontSize: 18,
+                            //     fontWeight: FontWeight.bold,
+                            //   ),
                             ),
                           ),
-                        ),
+                        // ),
                         Padding(
                           padding: EdgeInsets.all(8.0),
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text(
-                              'Ingredients: ' + dishWidget!.ingredients!,
-                              style: TextStyle(
-                                color: Color(0XFF7B3F00),
-                                fontSize: 18,
-                              ),
-                            ),
+                            // child: Text(
+                            //   'Ingredients: ' + dishWidget!.ingredients!,
+                            //   style: TextStyle(
+                            //     color: Color(0XFF7B3F00),
+                            //     fontSize: 18,
+                            //   ),
+                            // ),
                           ),
                         ),
                       ],
@@ -145,11 +145,11 @@ class DishPage extends StatelessWidget {
     ClientSdkService clientSdkService = ClientSdkService.getInstance();
     String atSign = ClientSdkService.getInstance().getAtSign().toString();
     // If the recipe has a name
-    if (dishWidget!.title != null) {
+    if (dishWidget!.content != null) {
       // Instantiate an AtKey object and specify its attributes by passing
       // the name of the recipe and the authenticated atsign
       AtKey atKey = AtKey();
-      atKey.key = dishWidget!.title;
+      atKey.key = dishWidget!.content;
       atKey.sharedWith = atSign;
 
       // Utilizing the delete method, after passing the recipe, the object

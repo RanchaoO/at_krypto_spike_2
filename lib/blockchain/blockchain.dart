@@ -13,10 +13,10 @@ class Blockchain {
       : _chain = [],
         _currentUploaded = [] {
     // create genesis block
-    newBlock(100, "1");
+    newBlock("1");
   }
 
-  Block newBlock(int proof, String previousHash) {
+  Block newBlock(String previousHash) {
     if (previousHash == null) {
       previousHash = hash(_chain.last);
     }
@@ -27,7 +27,6 @@ class Blockchain {
       _currentUploaded,
       previousHash,
     );
-
 
     _chain.add(block);
 

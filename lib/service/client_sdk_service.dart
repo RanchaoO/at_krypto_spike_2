@@ -8,10 +8,26 @@ import 'package:at_commons/at_commons.dart';
 import '../utils/constants.dart' as conf;
 // import 'package:at_client/src/util/encryption_util.dart';
 
+import '../blockchain/block.dart';
+import '../blockchain/blockchain.dart';
+import '../blockchain/uploads.dart';
+
 class ClientSdkService {
   static final ClientSdkService _singleton = ClientSdkService._internal();
 
+  static List<Blockchain> blockchains = [];
+  static Blockchain blockchain = new Blockchain();
+
   ClientSdkService._internal();
+
+  // addBlock(){
+  //   blockchain.newBlock();
+  // }
+  //
+
+  getBlockchain(){
+    return blockchain;
+  }
 
   factory ClientSdkService.getInstance() {
     return _singleton;

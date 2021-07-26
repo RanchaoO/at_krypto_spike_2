@@ -7,7 +7,7 @@ import '../service/client_sdk_service.dart';
 
 class ShareScreen extends StatefulWidget {
   static final String id = 'share';
-  final DishWidget? dishWidget;
+  final UploadWidget? dishWidget;
 
   ShareScreen({@required this.dishWidget});
 
@@ -90,7 +90,7 @@ class _ShareScreenState extends State<ShareScreen> {
       AtKey lookup = AtKey()
         // Specifying the attributes of lookup, such as the title
         // of the recipe and the atsign we are authenticated in as
-        ..key = widget.dishWidget!.title
+        ..key = widget.dishWidget!.content
         ..sharedWith = atSign;
 
       // getting the values of the recipe as a string to
@@ -108,7 +108,7 @@ class _ShareScreenState extends State<ShareScreen> {
         // Specifying the attributes of the AtKey object, such as the title of the
         // recipe, the metadata value we defined earlier, the atsign that will be
         // sending the recipe, and which atsign will be receiving the recipe
-        ..key = widget.dishWidget!.title
+        ..key = widget.dishWidget!.content
         ..metadata = metadata
         ..sharedBy = atSign
         ..sharedWith = _otherAtSign;

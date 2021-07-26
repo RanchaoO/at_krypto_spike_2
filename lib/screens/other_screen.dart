@@ -31,15 +31,15 @@ class OtherScreen extends StatelessWidget {
                       // a dish's attributes for its value.
                       Map dishAttributes = snapshot.data;
                       print(snapshot.data);
-                      List<DishWidget> dishWidgets = [];
+                      List<UploadWidget> dishWidgets = [];
                       dishAttributes.forEach((key, value) {
                         List<String> valueArr = value.split(constant.splitter);
                         dishWidgets.add(
-                          DishWidget(
-                            title: key,
-                            description: valueArr[0],
-                            ingredients: valueArr[1],
-                            imageURL: valueArr.length == 3 ? valueArr[2] : null,
+                          UploadWidget(
+                            content: key,
+                            // description: valueArr[0],
+                            // ingredients: valueArr[1],
+                            // imageURL: valueArr.length == 3 ? valueArr[2] : null,
                             prevScreen: OtherScreen.id,
                           ),
                         );
@@ -60,7 +60,7 @@ class OtherScreen extends StatelessWidget {
                                   },
                                 ),
                                 Text(
-                                  'Shared Dishes',
+                                  'Shared Data',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 32,
@@ -100,7 +100,7 @@ class OtherScreen extends StatelessWidget {
     // namespace of cookbook from the authenticated atsign's secondary server
     // This regex is also specified to get any recipe that has been shared with
     // the currently authenticated atsign
-    return await clientSdkService.getAtKeys('cached.*cookbook');
+    return await clientSdkService.getAtKeys('cached.*krypto');
     // Took regex: 'cached.*cookbook' out of getatkeys
   }
 
