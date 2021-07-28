@@ -1,6 +1,6 @@
-# at_cookbook
+# at_krypto_spike_2
 
-This is the complete version of the at_cookbook application. Feel free to use the code here as a starting template for your own projects.
+Implementation for the at_krypto application using the at_cookbook application code as a template.
 
 ## Getting Started
 
