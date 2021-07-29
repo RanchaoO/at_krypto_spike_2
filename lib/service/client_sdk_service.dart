@@ -1,5 +1,6 @@
 // import 'dart:convert';
 import 'dart:core';
+import 'dart:developer';
 import 'package:at_client_mobile/at_client_mobile.dart';
 import 'package:at_server_status/at_server_status.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
@@ -11,6 +12,8 @@ import '../utils/constants.dart' as conf;
 import '../blockchain/block.dart';
 import '../blockchain/blockchain.dart';
 import '../blockchain/uploads.dart';
+import 'dart:convert';
+
 
 class ClientSdkService {
   static final ClientSdkService _singleton = ClientSdkService._internal();
@@ -31,6 +34,31 @@ class ClientSdkService {
 
   setBlockChain(Blockchain bc) {
     blockchain = bc;
+  }
+
+  decodeJSON(String inputStr){
+    log('TEST INPUTSTR: '+ inputStr);
+    // String modifiedText = inputStr.replaceAll("\\b(\\p{L}+)\\b", "\"$1");
+
+    JsonCodec codec = new JsonCodec();
+    // var body = codec.decode(inputStr);
+
+    // log('TEST BODY: '+ body.toString());
+
+    // if(body['chain']){
+    //   for(var sub in body){
+    //     log('TEST SUB: '+ blockchain.printChain().toString());
+    //     var sub_json = jsonDecode(sub);
+    //     blockchain.newBlock(sub_json['atSign'], sub_json['prevHash']);
+    //     var uploads  = jsonDecode(sub_json['uploads']) as List;
+    //     for(var upload in sub['uploads']){
+    //       var upload_json = jsonDecode(upload);
+    //       blockchain.newUpload(upload_json['uploader'], upload_json['data']);
+    //     }
+    //   }
+
+      // log('TEST DECODE: '+ blockchain.printChain().toString());
+    // }
   }
 
   factory ClientSdkService.getInstance() {

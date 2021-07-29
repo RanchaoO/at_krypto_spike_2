@@ -32,20 +32,52 @@ class OtherScreen extends StatelessWidget {
                       // Returns a map that has a dish's title as its key and
                       // a dish's attributes for its value.
                       Map dishAttributes = snapshot.data;
+                      ClientSdkService clientSdkService = ClientSdkService.getInstance();
+
+
                       print(snapshot.data);
+
+
+                      // for (String attr in dishAttributes){
+                      //   List<String> attributesList = attr.split(constant.splitter);
+                      //
+                      //   if(attributesList[0] == "blockchain"){
+                      //     UploadWidget uploadWidget = UploadWidget(
+                      //       content: attributesList[1],
+                      //       // description: attributesList[1],
+                      //       // ingredients: attributesList[2],
+                      //       // imageURL: attributesList.length == 4
+                      //       //     ? attributesList[3]
+                      //       //     : null,
+                      //       prevScreen: HomeScreen.id,
+                      //     );
+                      //     uploads.add(uploadWidget);
+                      //   }
+                      // }
+
                       List<UploadWidget> dishWidgets = [];
                       dishAttributes.forEach((key, value) {
-                        List<String> valueArr = value.split(constant.splitter);
+                        // List<String> valueArr = value.split(constant.splitter);
+                        // var counter = 0;
+                        // for(String str in valueArr){
+                        //   print("TEST STR VALUE： $counter  ::: "+ str);
+                        //   counter++;
+                        // }
+
+                        print("TEST VALUE： "+ value);
+                        clientSdkService.decodeJSON(value);
+
                         dishWidgets.add(
                           UploadWidget(
-                            content: key,
+                            content: key+': ' +value,
                             // description: valueArr[0],
                             // ingredients: valueArr[1],
                             // imageURL: valueArr.length == 3 ? valueArr[2] : null,
                             prevScreen: OtherScreen.id,
                           ),
                         );
-                      });
+                      }
+                      );
                       return SafeArea(
                         child: ListView(
                           children: <Widget>[
@@ -138,8 +170,6 @@ class OtherScreen extends StatelessWidget {
 
 
       log("TEST RESPONSE: "+ response);
-
-
 
       // Adds all key/value pairs of [other] to this map.
       // If a key of [other] is already in this map, its value is overwritten.
