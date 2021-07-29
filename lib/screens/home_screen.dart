@@ -40,6 +40,7 @@ class _HomeScreenState extends State<HomeScreen>
                 future: _scan(),
                 builder:
                     (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+
                   if (snapshot.hasData) {
                     // Returns a list of attributes for each dish.
                     List<String> dishAttributes = snapshot.data;

@@ -40,8 +40,46 @@ class ClientSdkService {
     log('TEST INPUTSTR: '+ inputStr);
     // String modifiedText = inputStr.replaceAll("\\b(\\p{L}+)\\b", "\"$1");
 
-    JsonCodec codec = new JsonCodec();
+    // JsonCodec codec = new JsonCodec();
     // var body = codec.decode(inputStr);
+
+    List<String> body = inputStr.split("{");
+    int count = 0;
+    for(String str in body){
+      print('String TEST: $count:::: '+str);
+      count++;
+    }
+    var atSignStr;
+    var atSignStrs = [];
+    var prevHashs = [];
+    for(String str in body){
+
+      if(str.contains("atSign")){
+        var StrArr1 = str.split(" ");
+        atSignStr = StrArr1[1].substring(0, StrArr1[1].length - 1);
+        atSignStrs.add(atSignStr);
+        print(" atSignStr:::::: $atSignStr");
+      }
+
+      if(str.contains("prevHash")){
+        var strArr2 = str.split("prevHash: ");
+        print(" prevHash:::::: "+strArr2[1].substring(0, strArr2[1].indexOf('}')));
+        prevHashs.add(strArr2[1].substring(0, strArr2[1].indexOf('}')));
+      }
+    }
+
+    for(var i=0; i<atSignStrs.length;i++){
+      var check =blockchain.containAtSign(atSignStrs[i]);
+      if(check!=true) {
+        blockchain.newBlock(atSignStrs[i], prevHashs[i]);
+      }
+    }
+
+    print(" atSignStrs SIZE::::::" +atSignStrs.length.toString());
+
+
+    print(" blockchain_local::::::" + blockchain.printChain().toString());
+
 
     // log('TEST BODY: '+ body.toString());
 
