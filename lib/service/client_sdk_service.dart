@@ -16,7 +16,7 @@ class ClientSdkService {
   static final ClientSdkService _singleton = ClientSdkService._internal();
 
   static List<Blockchain> blockchains = [];
-  static Blockchain blockchain = new Blockchain(ClientSdkService.getInstance().getAtSign().toString()!,"1");
+  static Blockchain blockchain = new Blockchain(ClientSdkService.getInstance().getAtSign().toString(),"1");
 
   ClientSdkService._internal();
 

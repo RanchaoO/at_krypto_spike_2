@@ -48,12 +48,32 @@ class _HomeScreenState extends State<HomeScreen>
                     List<UploadWidget> uploads = [];
 
 
-                     Blockchain bc = new Blockchain(ClientSdkService.getInstance().atsign!,"1");
-                    for (String attributes in dishAttributes) {
-                      // Populate a DishWidget based on the attributes string.
-                      List<String> attributesList =
-                          attributes.split(constant.splitter);
-                      if (attributesList.length >= 1) {
+                    //  Blockchain bc = new Blockchain(ClientSdkService.getInstance().atsign!,"1");
+                    // for (String attributes in dishAttributes) {
+                    //   // Populate a DishWidget based on the attributes string.
+                    //   List<String> attributesList =
+                    //       attributes.split(constant.splitter);
+                    //   if (attributesList.length >= 1) {
+                    //     UploadWidget uploadWidget = UploadWidget(
+                    //       content: attributesList[1],
+                    //       // description: attributesList[1],
+                    //       // ingredients: attributesList[2],
+                    //       // imageURL: attributesList.length == 4
+                    //       //     ? attributesList[3]
+                    //       //     : null,
+                    //       prevScreen: HomeScreen.id,
+                    //     );
+                    //     bc.newUpload(ClientSdkService.getInstance().atsign!, attributesList[0]);
+                    //     uploads.add(uploadWidget);
+                    //     // uploads.add(attributes);
+                    //   }
+                    //   clientSdkService.setBlockChain(bc);
+                    // }
+
+                    for (String attr in dishAttributes){
+                      List<String> attributesList = attr.split(constant.splitter);
+
+                      if(attributesList[0] == "blockchain"){
                         UploadWidget uploadWidget = UploadWidget(
                           content: attributesList[1],
                           // description: attributesList[1],
@@ -63,12 +83,11 @@ class _HomeScreenState extends State<HomeScreen>
                           //     : null,
                           prevScreen: HomeScreen.id,
                         );
-                        bc.newUpload(ClientSdkService.getInstance().atsign!, attributesList[0]);
                         uploads.add(uploadWidget);
-                        // uploads.add(attributes);
                       }
-                      clientSdkService.setBlockChain(bc);
                     }
+
+
                     return SafeArea(
                       child: ListView(
                         children: <Widget>[

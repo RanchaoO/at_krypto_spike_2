@@ -33,6 +33,9 @@ class Blockchain {
     return block;
   }
 
+
+  List<Block> get chain => _chain;
+
   void newUpload(String sender, String data) {
     _currentUploaded.add(new Upload(sender, data));
   }
@@ -50,7 +53,6 @@ class Blockchain {
     }
     return false;
   }
-
 
   void removeBlock(String atSign) async {
     for(Block block in _chain){

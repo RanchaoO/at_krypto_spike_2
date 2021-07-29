@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:at_commons/at_commons.dart';
 import 'package:chefcookbook/components/dish_widget.dart';
 import 'package:chefcookbook/constants.dart' as constant;
@@ -133,6 +135,11 @@ class OtherScreen extends StatelessWidget {
 
       // Get the recipe
       String response = await clientSdkService.get(atKey);
+
+
+      log("TEST RESPONSE: "+ response);
+
+
 
       // Adds all key/value pairs of [other] to this map.
       // If a key of [other] is already in this map, its value is overwritten.

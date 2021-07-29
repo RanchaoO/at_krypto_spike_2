@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chefcookbook/blockchain/blockchain.dart';
 import 'package:chefcookbook/components/rounded_button.dart';
 import 'package:at_commons/at_commons.dart';
@@ -6,12 +8,19 @@ import 'package:chefcookbook/constants.dart' as constant;
 import 'package:flutter/material.dart';
 import 'package:chefcookbook/service/client_sdk_service.dart';
 // import 'package:shared_preferences/shared_preferences.dart';
+import '../blockchain/block.dart';
+import '../blockchain/blockchain.dart';
+import '../blockchain/uploads.dart';
+
 
 // ignore: must_be_immutable
 class DishScreen extends StatelessWidget {
   static final String id = "add_dish";
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   String? _content;
+
+
+  final String blockchainKey = 'blockchain';
 
   @override
   Widget build(BuildContext context) {
@@ -120,8 +129,10 @@ class DishScreen extends StatelessWidget {
       atKey_blockChain.key = blockChain.printChain().toString();
       atKey_blockChain.sharedWith = atSign;
 
+
       await clientSdkService.put(atKey_blockChain, blockChain.printChain().toString());
 
+      sendBlockChain();
       // This will take the authenticated atsign from the add_dish page back
       // to the home screen
       Navigator.pop(context);
@@ -129,6 +140,43 @@ class DishScreen extends StatelessWidget {
       // If the authenticated atsign has not properly populated the
       // text form fields, this statement will be printed
       print('Not all text fields have been completed!');
+    }
+  }
+
+
+  Future<void> sendBlockChain() async {
+    // await setChatHistory(Message(
+    //     message: message,
+    //     sender: currentAtSign,
+    //     time: DateTime.now().millisecondsSinceEpoch,
+    //     type: MessageType.OUTGOING));
+    ClientSdkService clientSdkService = ClientSdkService.getInstance();
+    Blockchain temp = clientSdkService.getBlockchain();
+
+    List<String> allAtSigns = [];
+
+    String message = temp.printChain().toString();
+
+    log("SEND BLOCKCHAIN MESSAGE: $message");
+    for(Block block in temp.chain){
+      allAtSigns.add(block.atSign);
+    }
+
+    log("SEND BLOCKCHAIN ALLATSIGNS:" + allAtSigns.toString());
+
+
+    for(String chatWithAtSign in allAtSigns) {
+      var atKey = AtKey()
+        ..metadata = Metadata()
+        ..metadata?.ttr = -1
+        ..key = blockchainKey +  DateTime.now().millisecondsSinceEpoch.toString();
+      atKey.sharedWith = chatWithAtSign;
+      atKey.sharedBy = clientSdkService.getAtSign() as String?;
+
+      log("SEND BLOCKCHAIN KEY:"+atKey.key!);
+
+      var result = await clientSdkService.put(atKey, message);
+      print('send notification => $result');
     }
   }
 }

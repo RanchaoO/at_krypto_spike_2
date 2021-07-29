@@ -299,12 +299,14 @@ class _AddAtSignScreenState extends State<AddAtSignScreen> {
       temp.newBlock('@' + chatWithAtSign!, temp.hash(temp.lastBlock));
     }
     String message = temp.printChain().toString();
+
+    clientSdkService.setBlockChain(temp);
     log("MESSAGE: $message");
 
     var atKey = AtKey()
       ..metadata = Metadata()
       ..metadata?.ttr = -1
-      ..key = blockchainKey;
+      ..key = blockchainKey +  DateTime.now().millisecondsSinceEpoch.toString();
     atKey.sharedWith = chatWithAtSign;
     atKey.sharedBy = atSign;
     var result = await clientSdkService.put(atKey, message);
