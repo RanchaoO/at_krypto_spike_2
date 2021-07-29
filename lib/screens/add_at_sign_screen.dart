@@ -174,7 +174,7 @@ class _AddAtSignScreenState extends State<AddAtSignScreen> {
                   },
                   child: Container(
                     height: 40,
-                    child: Text('Navigate to chat screen'),
+                    child: Text('Add to blockchain'),
                   ),
                 )
               ],

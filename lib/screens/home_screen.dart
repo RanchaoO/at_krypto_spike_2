@@ -43,13 +43,12 @@ class _HomeScreenState extends State<HomeScreen>
                   if (snapshot.hasData) {
                     // Returns a list of attributes for each dish.
                     List<String> dishAttributes = snapshot.data;
-                    print("123455678912345687jdfklfkdsj;");
                     print(snapshot.data);
                     // List<DishWidget> dishWidgets = [];
                     List<UploadWidget> uploads = [];
 
 
-                     Blockchain bc = new Blockchain("rootBlock","1");
+                     Blockchain bc = new Blockchain(ClientSdkService.getInstance().atsign!,"1");
                     for (String attributes in dishAttributes) {
                       // Populate a DishWidget based on the attributes string.
                       List<String> attributesList =
