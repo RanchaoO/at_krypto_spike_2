@@ -16,6 +16,8 @@ dependencies:
   at_onboarding_flutter: ^2.1.0
   hex: ^0.2.0
   crypto: ^3.0.1
+  at_chat_flutter: ^2.0.1
+
 
 dev_dependencies:
   flutter_test:

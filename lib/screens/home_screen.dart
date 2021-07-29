@@ -1,6 +1,7 @@
 import 'package:chefcookbook/blockchain/blockchain.dart';
 import 'package:chefcookbook/components/dish_widget.dart';
 import 'package:chefcookbook/constants.dart' as constant;
+import 'package:chefcookbook/screens/add_at_sign_screen.dart';
 import 'package:chefcookbook/screens/share_screen.dart';
 import 'add_dish_screen.dart';
 import 'other_screen.dart';
@@ -129,7 +130,7 @@ class _HomeScreenState extends State<HomeScreen>
               ),
               FloatingActionButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, ShareScreen.id)
+                  Navigator.pushNamed(context, AddAtSignScreen.id)
                       .then((value) => setState(() {}));
                 },
                 child: Icon(Icons.perm_contact_cal),
