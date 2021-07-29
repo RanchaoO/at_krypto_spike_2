@@ -1,3 +1,4 @@
+import 'package:chefcookbook/blockchain/blockchain.dart';
 import 'package:chefcookbook/components/dish_widget.dart';
 import 'package:chefcookbook/constants.dart' as constant;
 import 'package:chefcookbook/screens/share_screen.dart';
@@ -41,9 +42,11 @@ class _HomeScreenState extends State<HomeScreen>
                   if (snapshot.hasData) {
                     // Returns a list of attributes for each dish.
                     List<String> dishAttributes = snapshot.data;
+                    print("123455678912345687jdfklfkdsj;");
                     print(snapshot.data);
                     // List<DishWidget> dishWidgets = [];
                     List<UploadWidget> uploads = [];
+                    Blockchain bc = new Blockchain();
                     for (String attributes in dishAttributes) {
                       // Populate a DishWidget based on the attributes string.
                       List<String> attributesList =
@@ -58,9 +61,11 @@ class _HomeScreenState extends State<HomeScreen>
                           //     : null,
                           prevScreen: HomeScreen.id,
                         );
+                        bc.newUpload(ClientSdkService.getInstance().atsign!, attributesList[0]);
                         uploads.add(uploadWidget);
                         // uploads.add(attributes);
                       }
+                      clientSdkService.setBlockChain(bc);
                     }
                     return SafeArea(
                       child: ListView(

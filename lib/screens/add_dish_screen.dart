@@ -11,9 +11,6 @@ class DishScreen extends StatelessWidget {
   static final String id = "add_dish";
   final GlobalKey<FormState> _formKey = new GlobalKey<FormState>();
   String? _content;
-  String? _ingredients;
-  String? _description;
-  String? _imageURL;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +82,7 @@ class DishScreen extends StatelessWidget {
 
     Blockchain blockChain = clientSdkService.getBlockchain();
     blockChain.newUpload(atSign!, _content!);
-    print("aaaaaaaaaa");
+    // clientSdkService.setBlockChain(blockChain);
     print(blockChain.printChain().toString());
 
 

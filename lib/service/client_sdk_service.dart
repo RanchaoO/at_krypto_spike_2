@@ -29,6 +29,10 @@ class ClientSdkService {
     return blockchain;
   }
 
+  setBlockChain(Blockchain bc) {
+    blockchain = bc;
+  }
+
   factory ClientSdkService.getInstance() {
     return _singleton;
   }
