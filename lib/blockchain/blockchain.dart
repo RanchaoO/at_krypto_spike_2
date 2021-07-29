@@ -9,20 +9,20 @@ class Blockchain {
   final List<Block> _chain;
   final List<Upload> _currentUploaded;
 
-  Blockchain()
+  Blockchain(String rootBlock, String prehash)
       : _chain = [],
         _currentUploaded = [] {
     // create genesis block
-    newBlock("1");
+    newBlock(rootBlock,prehash);
   }
 
-  Block newBlock(String previousHash) {
+  Block newBlock(String atSign,String previousHash) {
     if (previousHash == null) {
       previousHash = hash(_chain.last);
     }
 
     var block = new Block(
-      _chain.length,
+      atSign,
       new DateTime.now().millisecondsSinceEpoch,
       _currentUploaded,
       previousHash,
@@ -33,9 +33,8 @@ class Blockchain {
     return block;
   }
 
-  int newUpload(String sender, String data) {
+  void newUpload(String sender, String data) {
     _currentUploaded.add(new Upload(sender, data));
-    return lastBlock.index + 1;
   }
 
   Block get lastBlock {

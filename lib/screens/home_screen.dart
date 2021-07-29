@@ -47,7 +47,9 @@ class _HomeScreenState extends State<HomeScreen>
                     print(snapshot.data);
                     // List<DishWidget> dishWidgets = [];
                     List<UploadWidget> uploads = [];
-                    Blockchain bc = new Blockchain();
+
+
+                     Blockchain bc = new Blockchain("rootBlock","1");
                     for (String attributes in dishAttributes) {
                       // Populate a DishWidget based on the attributes string.
                       List<String> attributesList =

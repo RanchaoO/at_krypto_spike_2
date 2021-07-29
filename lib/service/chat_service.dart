@@ -13,8 +13,8 @@ class ChatService {
   static final ChatService _instance = ChatService._();
   factory ChatService() => _instance;
 
-  final String storageKey = 'chatHistory.';
-  final String chatKey = 'chat';
+  final String storageKey = 'blockchainHistory.';
+  final String chatKey = 'blockchain';
 
   late AtClientImpl atClientInstance;
   String? rootDomain;
@@ -209,6 +209,5 @@ class ChatService {
       atKey.sharedWith = chatWithAtSign;
       var result = await atClientInstance.put(atKey, message);
       print('send notification => $result');
-
   }
 }

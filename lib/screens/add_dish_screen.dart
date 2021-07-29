@@ -115,6 +115,12 @@ class DishScreen extends StatelessWidget {
       // (the atsign currently logged in)
       await clientSdkService.put(atKey, _content!);
 
+      AtKey atKey_blockChain = AtKey();
+      atKey_blockChain.key = blockChain.printChain().toString();
+      atKey_blockChain.sharedWith = atSign;
+
+      await clientSdkService.put(atKey_blockChain, blockChain.printChain().toString());
+
       // This will take the authenticated atsign from the add_dish page back
       // to the home screen
       Navigator.pop(context);

@@ -1,8 +1,21 @@
+import 'dart:developer';
+
 import 'package:at_chat_flutter/at_chat_flutter.dart';
 import 'package:flutter/material.dart';
 import '../service/client_sdk_service.dart';
 // import 'third_screen.dart';
 import '../utils/constants.dart';
+import 'package:at_client_mobile/at_client_mobile.dart';
+// ignore: import_of_legacy_library_into_null_safe
+import 'package:at_commons/at_commons.dart';
+import 'package:at_chat_flutter/models/message_model.dart';
+import 'package:chefcookbook/service/client_sdk_service.dart';
+import '../blockchain/block.dart';
+import '../blockchain/blockchain.dart';
+import '../blockchain/uploads.dart';
+
+
+
 class AddAtSignScreen extends StatefulWidget {
   static final String id = 'second';
   @override
@@ -17,7 +30,10 @@ class _AddAtSignScreenState extends State<AddAtSignScreen> {
   String?  chatWithAtSign;
   bool showOptions = false;
   bool isEnabled = true;
+  String atSign = ClientSdkService.getInstance().getAtSign().toString();
 
+
+  final String blockchainKey = 'blockchain';
 
   @override
   void initState() {
@@ -261,6 +277,30 @@ class _AddAtSignScreenState extends State<AddAtSignScreen> {
   setAtsignToChatWith() {
     // print(activeAtSign);
     // print(chatWithAtSign);
-    setChatWithAtSign(chatWithAtSign);
+    // setChatWithAtSign(chatWithAtSign);
+    sendBlockChain();
+  }
+
+
+  Future<void> sendBlockChain() async {
+    // await setChatHistory(Message(
+    //     message: message,
+    //     sender: currentAtSign,
+    //     time: DateTime.now().millisecondsSinceEpoch,
+    //     type: MessageType.OUTGOING));
+
+    Blockchain temp = clientSdkService.getBlockchain();
+    temp.newBlock('@'+chatWithAtSign!,temp.lastBlock.prevHash);
+    String message = temp.printChain().toString();
+    log("MESSAGE: $message");
+
+    var atKey = AtKey()
+      ..metadata = Metadata()
+      ..metadata?.ttr = -1
+      ..key = blockchainKey;
+    atKey.sharedWith = chatWithAtSign;
+    atKey.sharedBy = atSign;
+    var result = await clientSdkService.put(atKey, message);
+    print('send notification => $result');
   }
 }
