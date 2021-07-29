@@ -25,9 +25,9 @@ class ChatService {
   List<dynamic>? chatHistoryMessages = [];
 
   // in case of group chat
-  bool isGroupChat = false;
-  String? groupChatId;
-  List<String>? groupChatMembers = [];
+  // bool isGroupChat = false;
+  // String? groupChatId;
+  // List<String>? groupChatMembers = [];
 
   StreamController<List<Message>> chatStreamController =
       StreamController<List<Message>>.broadcast();
@@ -78,10 +78,7 @@ class ChatService {
     notificationKey.replaceFirst(fromAtsign, '');
     notificationKey.trim();
 
-    if ((notificationKey.startsWith(chatKey) && fromAtsign == chatWithAtSign) ||
-        (isGroupChat &&
-            notificationKey.startsWith(chatKey + groupChatId!) &&
-            groupChatMembers!.contains(fromAtsign))) {
+    if ((notificationKey.startsWith(chatKey) && fromAtsign == chatWithAtSign)) {
       var message = responseJson['value'];
       var decryptedMessage = await atClientInstance.encryptionService!
           .decrypt(message, fromAtsign)
@@ -97,13 +94,7 @@ class ChatService {
     }
   }
 
-  void setAtsignToChatWith(String? chatWithAtSignFromApp, bool isGroup,
-      String? groupId, List<String>? groupMembers) {
-    if (isGroup) {
-      isGroupChat = isGroup;
-      groupChatId = groupId;
-      groupChatMembers = groupMembers;
-    } else {
+  void setAtsignToChatWith(String? chatWithAtSignFromApp) {
       // ignore: unnecessary_null_comparison
       if (chatWithAtSignFromApp != null) {
         if (chatWithAtSignFromApp.startsWith('@')) {
@@ -114,7 +105,6 @@ class ChatService {
       } else {
         chatWithAtSign = '';
       }
-    }
   }
 
   Future<void> getChatHistory({String? atsign}) async {
@@ -122,7 +112,6 @@ class ChatService {
       chatHistory = [];
       var key = AtKey()
         ..key = storageKey +
-            (isGroupChat ? groupChatId! : '') +
             (atsign ?? chatWithAtSign ?? ' ').substring(1)
         ..sharedBy = currentAtSign!
         ..metadata = Metadata();
@@ -144,7 +133,6 @@ class ChatService {
         chatSink.add(chatHistory);
       }
       var referenceKey = chatKey +
-          (isGroupChat ? groupChatId! : '') +
           (chatHistory.isEmpty ? '' : chatHistory[0].time.toString()) +
           currentAtSign!;
       await checkForMissedMessages(referenceKey);
@@ -158,7 +146,7 @@ class ChatService {
         .getKeys(
             sharedBy: chatWithAtSign,
             sharedWith: currentAtSign!,
-            regex: chatKey + (isGroupChat ? groupChatId! : ''))
+            regex: chatKey)
         .catchError((e) {
       print('error in checkForMissedMessages:getKeys ${e.toString()}');
     });
@@ -183,7 +171,7 @@ class ChatService {
           sender: chatWithAtSign ?? missingAtkey.sharedBy,
           time: int.parse(missingKey
               .replaceFirst(chatWithAtSign ?? '', '')
-              .replaceFirst(chatKey + (isGroupChat ? groupChatId! : ''), '')
+              .replaceFirst(chatKey, '')
               .split('.')[0]),
           type: MessageType.INCOMING));
     }
@@ -193,7 +181,6 @@ class ChatService {
     try {
       var key = AtKey()
         ..key = storageKey +
-            (isGroupChat ? groupChatId! : '') +
             (chatWithAtSign ?? ' ').substring(1)
         ..metadata = Metadata();
 
@@ -217,20 +204,11 @@ class ChatService {
       ..metadata = Metadata()
       ..metadata?.ttr = -1
       ..key = chatKey +
-          (isGroupChat ? groupChatId! : '') +
           DateTime.now().millisecondsSinceEpoch.toString();
-    if (isGroupChat) {
-      await Future.forEach(groupChatMembers!, (dynamic member) async {
-        if (member != currentAtSign) {
-          atKey.sharedWith = member;
-          var result = await atClientInstance.put(atKey, message);
-          print('send notification for groupChat => $result');
-        }
-      });
-    } else {
+
       atKey.sharedWith = chatWithAtSign;
       var result = await atClientInstance.put(atKey, message);
       print('send notification => $result');
-    }
+
   }
 }
