@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen>
                           attributes.split(constant.splitter);
                       if (attributesList.length >= 1) {
                         UploadWidget uploadWidget = UploadWidget(
-                          content: attributesList[0],
+                          content: attributesList[1],
                           // description: attributesList[1],
                           // ingredients: attributesList[2],
                           // imageURL: attributesList.length == 4
