@@ -1,3 +1,4 @@
+import 'package:chefcookbook/screens/add_at_sign_screen.dart';
 import 'package:chefcookbook/screens/add_dish_screen.dart';
 import 'package:chefcookbook/screens/home_screen.dart';
 import 'package:chefcookbook/screens/other_screen.dart';
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
           HomeScreen.id: (context) => HomeScreen(),
           DishScreen.id: (context) => DishScreen(),
           OtherScreen.id: (context) => OtherScreen(),
+          AddAtSignScreen.id: (context) => AddAtSignScreen()
         });
   }
 }
