@@ -23,7 +23,7 @@ class Blockchain {
 
     var block = new Block(
       atSign,
-      new DateTime.now().millisecondsSinceEpoch,
+      // new DateTime.now().millisecondsSinceEpoch,
       _currentUploaded,
       previousHash,
     );
@@ -39,6 +39,25 @@ class Blockchain {
 
   Block get lastBlock {
     return _chain.last;
+  }
+
+  bool containAtSign(String atSign) {
+    for(Block block in _chain){
+      if(block.atSign == atSign){
+        print('TEST ATSIGN'+block.atSign);
+        return true;
+      }
+    }
+    return false;
+  }
+
+
+  void removeBlock(String atSign) async {
+    for(Block block in _chain){
+      if(block.atSign == atSign){
+        _chain.remove(block);
+      }
+    }
   }
 
   Map<String,dynamic> printChain() {

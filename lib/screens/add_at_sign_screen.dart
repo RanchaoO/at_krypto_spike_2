@@ -290,7 +290,14 @@ class _AddAtSignScreenState extends State<AddAtSignScreen> {
     //     type: MessageType.OUTGOING));
 
     Blockchain temp = clientSdkService.getBlockchain();
-    temp.newBlock('@'+chatWithAtSign!,temp.lastBlock.prevHash);
+    String checkAtSign = '@'+chatWithAtSign!;
+    var check = temp.containAtSign(checkAtSign);
+    if(check == true){
+      temp.removeBlock(checkAtSign);
+      temp.newBlock('@' + chatWithAtSign!, temp.hash(temp.lastBlock));
+    }else {
+      temp.newBlock('@' + chatWithAtSign!, temp.hash(temp.lastBlock));
+    }
     String message = temp.printChain().toString();
     log("MESSAGE: $message");
 
