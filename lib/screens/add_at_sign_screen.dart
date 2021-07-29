@@ -46,45 +46,45 @@ class _AddAtSignScreenState extends State<AddAtSignScreen> {
                 style: TextStyle(fontSize: 20),
               ),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                showDialog(
-                    barrierDismissible: true,
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Row(
-                          children: [Text('Delete $activeAtSign')],
-                        ),
-                        content: Text('Press Yes to confirm'),
-                        actions: <Widget>[
-                          // TextButton(
-                          //   // onPressed: () async {
-                          //   //   await ClientSdkService.getInstance()
-                          //   //       .deleteAtSignFromKeyChain();
-                          //   //   await Navigator.pushNamedAndRemoveUntil(
-                          //   //       context,
-                          //   //       FirstScreen.id,
-                          //   //           (Route<dynamic> route) => false);
-                          //   // },
-                          //   child: Text('Yes'),
-                          // ),
-                          TextButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            child: Text('No'),
-                          )
-                        ],
-                      );
-                    });
-              },
-              child: Text('Remove $activeAtSign'),
-            ),
+            // ElevatedButton(
+            //   onPressed: () async {
+            //     showDialog(
+            //         barrierDismissible: true,
+            //         context: context,
+            //         builder: (BuildContext context) {
+            //           return AlertDialog(
+            //             title: Row(
+            //               children: [Text('Delete $activeAtSign')],
+            //             ),
+            //             content: Text('Press Yes to confirm'),
+            //             actions: <Widget>[
+            //               // TextButton(
+            //               //   // onPressed: () async {
+            //               //   //   await ClientSdkService.getInstance()
+            //               //   //       .deleteAtSignFromKeyChain();
+            //               //   //   await Navigator.pushNamedAndRemoveUntil(
+            //               //   //       context,
+            //               //   //       FirstScreen.id,
+            //               //   //           (Route<dynamic> route) => false);
+            //               //   // },
+            //               //   child: Text('Yes'),
+            //               // ),
+            //               TextButton(
+            //                 onPressed: () {
+            //                   Navigator.pop(context);
+            //                 },
+            //                 child: Text('No'),
+            //               )
+            //             ],
+            //           );
+            //         });
+            //   },
+            //   child: Text('Remove $activeAtSign'),
+            // ),
             SizedBox(
               height: 20.0,
             ),
-            Text('Choose an @sign to chat with'),
+            Text('Choose an @sign to join the blockchain'),
             SizedBox(
               height: 10.0,
             ),
@@ -92,7 +92,7 @@ class _AddAtSignScreenState extends State<AddAtSignScreen> {
               padding: const EdgeInsets.only(left: 20.0, right: 20.0),
               child: TextField(
                 decoration:
-                InputDecoration(hintText: 'Enter an @sign to chat with'),
+                InputDecoration(hintText: 'Enter an @sign for the new block'),
                 onChanged: (value) {
                   chatWithAtSign = value;
                 },
@@ -138,18 +138,18 @@ class _AddAtSignScreenState extends State<AddAtSignScreen> {
                 ? Column(
               children: [
                 SizedBox(height: 20.0),
-                TextButton(
-                  onPressed: () {
-                    var _res = checkForValidAtsignAndSet();
-                    if (_res == true)
-                      scaffoldKey!.currentState!
-                          .showBottomSheet((context) => ChatScreen());
-                  },
-                  child: Container(
-                    height: 40,
-                    child: Text('Open chat in bottom sheet'),
-                  ),
-                ),
+                // TextButton(
+                //   onPressed: () {
+                //     var _res = checkForValidAtsignAndSet();
+                //     if (_res == true)
+                //       scaffoldKey!.currentState!
+                //           .showBottomSheet((context) => ChatScreen());
+                //   },
+                //   child: Container(
+                //     height: 40,
+                //     child: Text('Open chat in bottom sheet'),
+                //   ),
+                // ),
                 TextButton(
                   onPressed: () {
                     var _res = checkForValidAtsignAndSet();
@@ -199,7 +199,7 @@ class _AddAtSignScreenState extends State<AddAtSignScreen> {
                   },
                   child: Container(
                     height: 40,
-                    child: Text('Chat options'),
+                    child: Text('Blockchain options'),
                   ),
                 ),
               ],
